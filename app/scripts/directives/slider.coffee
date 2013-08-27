@@ -14,7 +14,8 @@ angular.module('demoApp')
     template: """
         <div class="slider">
             <div class="nib"
-                 ng-style="nibStyle()">
+                 ng-style="nibStyle()"
+                 ng-mousedown="startSliding($event)">
             </div>
         </div>
     """
@@ -23,6 +24,11 @@ angular.module('demoApp')
     replace: true
     restrict: 'E'
     link: ($scope, $element, $attrs) ->
+        sliding = false
+        sliderWidth = null
+        startMoveValue = -1
+        startX = -1
+
         $scope.nibStyle = () ->
             value = parseFloatDefault $scope.value, 0
             
@@ -30,4 +36,29 @@ angular.module('demoApp')
             return {
                 marginLeft: "#{100 * proportion}%"
             }
+
+        $scope.startSliding = (event) ->
+            sliding = true
+            startX = event.x
+            sliderWidth = $element.prop('clientWidth')
+            startMoveValue = parseFloatDefault $scope.value, 0
+
+        # Bind mouse events to the document
+        $document = angular.element(document)
+
+        $document
+        .bind 'mousemove', (event) ->
+            return if not sliding
+
+            distance = event.x - startX
+
+            newValue = startMoveValue + (distance / sliderWidth)
+            newValue = clamp newValue, 0, 1
+
+            $scope.$apply () ->
+                $scope.value = newValue
+        .bind 'mouseup', () ->
+            sliding = false
+
+
   )
