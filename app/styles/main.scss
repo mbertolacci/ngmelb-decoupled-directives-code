@@ -1,0 +1,42 @@
+@import "compass_twitter_bootstrap";
+
+$slider-height: 6px;
+$nib-width: 15px;
+
+body {
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.container {
+	width: 400px;
+}
+
+.slider {
+	margin: 2em 0;
+
+	position: relative;
+	display: block;
+
+	height: $slider-height;
+
+	background-color: rgb(200, 200, 200);
+
+	.nib {
+		position: absolute;
+
+		width: $nib-width;
+		height: $nib-width;
+
+		margin-top: ($slider-height - $nib-width) / 2;
+
+		background-color: rgb(100, 100, 100);
+		@include border-radius($nib-width);
+
+		cursor: pointer;
+
+		.label {
+			margin-top: $nib-width + 2px;
+		}
+	}
+}
