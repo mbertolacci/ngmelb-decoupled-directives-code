@@ -21,6 +21,8 @@ angular.module('demoApp')
     """
     scope:
         value: '=ngModel'
+        minValue: '@'
+        maxValue: '@'
     replace: true
     restrict: 'E'
     link: ($scope, $element, $attrs) ->
@@ -31,8 +33,11 @@ angular.module('demoApp')
 
         $scope.nibStyle = () ->
             value = parseFloatDefault $scope.value, 0
-            
-            proportion = clamp(value, 0, 1)
+            minValue = parseFloatDefault $scope.minValue, 0
+            maxValue = parseFloatDefault $scope.maxValue, 1
+
+            proportion = clamp (value - minValue) / (maxValue - minValue), 0, 1
+
             return {
                 marginLeft: "#{100 * proportion}%"
             }
@@ -52,8 +57,11 @@ angular.module('demoApp')
 
             distance = event.x - startX
 
-            newValue = startMoveValue + (distance / sliderWidth)
-            newValue = clamp newValue, 0, 1
+            minValue = parseFloatDefault $scope.minValue, 0
+            maxValue = parseFloatDefault $scope.maxValue, 1
+
+            newValue = startMoveValue + (distance / sliderWidth) * (maxValue - minValue)
+            newValue = clamp newValue, minValue, maxValue
 
             $scope.$apply () ->
                 $scope.value = newValue
