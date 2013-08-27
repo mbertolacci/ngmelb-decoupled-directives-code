@@ -13,7 +13,19 @@
 	Your digits are
 	<input type="text" ng-model="digits" />
 </p>
+<hr/>
 <p>
 	Min value: <input type="text" ng-model="min" /> <br/>
+	<slider ng-model="min"
+	        min-value="-100"
+	        max-value="{{max}}">
+	</slider>
+</p>
+<hr/>
+<p>
 	Max value: <input type="text" ng-model="max" />
+	<slider ng-model="max"
+	        min-value="{{min}}"
+	        max-value="100">
+	</slider>
 </p>
