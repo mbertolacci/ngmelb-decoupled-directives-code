@@ -5,11 +5,15 @@
 </p>
 
 <slider ng-model="digits"
-		min-value="0"
-		max-value="100">
+		min-value="{{min}}"
+		max-value="{{max}}">
 </slider>
 
 <p>
 	Your digits are
 	<input type="text" ng-model="digits" />
+</p>
+<p>
+	Min value: <input type="text" ng-model="min" /> <br/>
+	Max value: <input type="text" ng-model="max" />
 </p>
