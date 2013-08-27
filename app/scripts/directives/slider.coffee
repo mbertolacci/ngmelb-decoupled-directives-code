@@ -23,6 +23,8 @@ angular.module('demoApp')
         value: '=ngModel'
         minValue: '@'
         maxValue: '@'
+        slideStart: '&'
+        slideStop: '&'
     replace: true
     restrict: 'E'
     link: ($scope, $element, $attrs) ->
@@ -48,6 +50,8 @@ angular.module('demoApp')
             sliderWidth = $element.prop('clientWidth')
             startMoveValue = parseFloatDefault $scope.value, 0
 
+            $scope.slideStart()
+
         # Bind mouse events to the document
         $document = angular.element(document)
 
@@ -67,6 +71,8 @@ angular.module('demoApp')
                 $scope.value = newValue
         .bind 'mouseup', () ->
             sliding = false
+            $scope.$apply () ->
+                $scope.slideStop()
 
 
   )

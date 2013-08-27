@@ -6,8 +6,14 @@
 
 <slider ng-model="digits"
 		min-value="{{min}}"
-		max-value="{{max}}">
+		max-value="{{max}}"
+		slide-start="isSliding = true"
+		slide-stop="isSliding = false">
 </slider>
+
+<p style="text-align: center">
+	<img src="slide.gif" ng-show="isSliding" style="display: none;" />
+</p>
 
 <p>
 	Your digits are
