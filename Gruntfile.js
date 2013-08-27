@@ -20,6 +20,9 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     yeoman: yeomanConfig,
+    livereload: {
+      port: 35728
+    },
     watch: {
       coffee: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
