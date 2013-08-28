@@ -80,6 +80,9 @@ angular.module('demoApp')
             if $attrs.scaleValue
                 scaledMinValue = $scope.scaleValue({ value: minValue })
                 scaledMaxValue = $scope.scaleValue({ value: maxValue })
+            else
+                scaledMinValue = minValue
+                scaledMaxValue = maxValue
 
             newValue = scaledMinValue + (scaledMaxValue - scaledMinValue) * newProportion
             if $attrs.scaleProportion
