@@ -25,30 +25,40 @@ angular.module('demoApp')
         maxValue: '@'
         slideStart: '&'
         slideStop: '&'
+        scaleValue: '&'
+        scaleProportion: '&'
     replace: true
     restrict: 'E'
     link: ($scope, $element, $attrs) ->
         sliding = false
         sliderWidth = null
-        startMoveValue = -1
+        startMoveProportion = -1
         startX = -1
 
-        $scope.nibStyle = () ->
+        getProportion = () ->
             value = parseFloatDefault $scope.value, 0
             minValue = parseFloatDefault $scope.minValue, 0
             maxValue = parseFloatDefault $scope.maxValue, 1
 
-            proportion = clamp (value - minValue) / (maxValue - minValue), 0, 1
+            if $attrs.scaleValue
+                value = $scope.scaleValue({ value: value })
+                minValue = $scope.scaleValue({ value: minValue })
+                maxValue = $scope.scaleValue({ value: maxValue })
 
+            proportion = (value - minValue) / (maxValue - minValue)
+
+            return clamp proportion, 0, 1
+
+        $scope.nibStyle = () ->
             return {
-                marginLeft: "#{100 * proportion}%"
+                marginLeft: "#{100 * getProportion()}%"
             }
 
         $scope.startSliding = (event) ->
             sliding = true
             startX = event.x
             sliderWidth = $element.prop('clientWidth')
-            startMoveValue = parseFloatDefault $scope.value, 0
+            startMoveProportion = getProportion()
 
             $scope.slideStart()
 
@@ -61,10 +71,19 @@ angular.module('demoApp')
 
             distance = event.x - startX
 
+            newProportion = startMoveProportion + distance / sliderWidth
+            newProportion = clamp newProportion, 0, 1
+
             minValue = parseFloatDefault $scope.minValue, 0
             maxValue = parseFloatDefault $scope.maxValue, 1
 
-            newValue = startMoveValue + (distance / sliderWidth) * (maxValue - minValue)
+            if $attrs.scaleValue
+                scaledMinValue = $scope.scaleValue({ value: minValue })
+                scaledMaxValue = $scope.scaleValue({ value: maxValue })
+
+            newValue = scaledMinValue + (scaledMaxValue - scaledMinValue) * newProportion
+            if $attrs.scaleProportion
+                newValue = $scope.scaleProportion({ proportion: newValue })
             newValue = clamp newValue, minValue, maxValue
 
             $scope.$apply () ->

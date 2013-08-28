@@ -7,23 +7,15 @@
 <slider ng-model="digits"
 		min-value="{{min}}"
 		max-value="{{max}}"
-		scale="logScale(proportion)"
-		slide-start="isSliding = true"
-		slide-stop="isSliding = false">
+		scale-value="log(value)"
+		scale-proportion="exp(proportion)">
 </slider>
-
-<div style="text-align: center; display: none;"
-   ng-show="isSliding">
-	<h3>I'm sliding!</h3>
-	<p>
-		<img src="slide.gif" />
-	</p>
-</div>
 
 <p>
 	Your digits are
 	<input type="text" ng-model="digits" />
 </p>
+<div class="value-div" ng-style="{ width: digits + '%' }"></div>
 <hr/>
 <p>
 	Min value: <input type="text" ng-model="min" /> <br/>
