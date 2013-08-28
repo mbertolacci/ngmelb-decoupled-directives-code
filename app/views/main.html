@@ -7,13 +7,18 @@
 <slider ng-model="digits"
 		min-value="{{min}}"
 		max-value="{{max}}"
+		scale="logScale(proportion)"
 		slide-start="isSliding = true"
 		slide-stop="isSliding = false">
 </slider>
 
-<p style="text-align: center">
-	<img src="slide.gif" ng-show="isSliding" style="display: none;" />
-</p>
+<div style="text-align: center; display: none;"
+   ng-show="isSliding">
+	<h3>I'm sliding!</h3>
+	<p>
+		<img src="slide.gif" />
+	</p>
+</div>
 
 <p>
 	Your digits are
